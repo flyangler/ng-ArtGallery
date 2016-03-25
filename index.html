@@ -1,0 +1,161 @@
+<html ng-app="MyGallery">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <!-- My Styles -->
+    <link rel="stylesheet" href="app/styles/style.css" type="text/css"> </head>
+
+<body ng-controller="GalleryController">
+
+
+    <!--begin Navbar Section-->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                <li><h4 style="color: peru; padding-top: 5px">My Art Gallery</h4></li>
+                <li><a class="btn-group" role="group" ng-click="sortOrder = 'title'">Sort by Title</a></li>
+                <li><a class="btn-group" role="group" ng-click="sortOrder = 'name'">Sort by Artist</a></li>
+                <li><a class="btn-group" role="group" ng-click="sortOrder = 'date'">Sort by Curation Date</a></li>
+                <li><a ng-click="curator = !curator">Open/Close Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!--End Navbar Section-->
+
+
+
+<div ng-show="curator">
+            <!--BEGIN INPUT FORM-->
+            <div class="col-sm-4">
+                <div class="well width = 500px" >
+                    <form class="form" ng-submit="addArt(newArt)">
+                        <div class="form-group"> <label for="artist">Artist Name:</label>   <input class="form-control" type="text" ng-model="newArt.artist" placeholder="Artist's Name"/>
+                        </div>
+                        <div class="form-group"> <label for="title">Art Title:</label>      <input class="form-control" type="text" ng-model="newArt.title" placeholder="Artpiece Title"/>
+                        </div>
+                        <div class="form-group"> <label for="imgUrl">Artwork Image</label> <input class="form-control" type="url" ng-model="newArt.img" placeholder="Paste Artwork Url Here"/>
+                        </div>
+                        <div>
+                            <button type="submit" class="fc-state-default" ng-sref="galleryView">Add to Gallery</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-body container-fluid">
+                    <h3>Collection</h3>
+                    <div>
+                        <ul class="list-group" >
+                            <li class="list-group-item" ng-repeat="art in gallery track by $index" >
+                                <h5style="margin-right: 5px">Title: {{art["title"]}}</h5>
+                               
+                            </li>
+                        </ul>
+                    </div>
+                    <footer style="display: block;">
+                        <div class="gallery-count">{{gallery.length}} Pieces</div>
+                    </footer>
+                </div>
+            </div>
+            <!--END INPUT FORM-->
+            
+            <!--BEGIN BINDING TO LIVE PREVIEW-->
+            <div class="col-sm-2">
+            </div>    
+            <div class="col-sm-5">
+                    <div class="jumbotron">
+                <div class="media content = 500px">
+                    <p style="text-align: center"><img class="img" align="middle" style="height: 300px;" ng-src="{{newArt.img}}" default="Paste Artwork Image here"></p>
+                </div>
+                        <h3 style="text-align: center">{{newArt.title}}</h3>
+                        <h5 style="text-align: center">{{newArt.artist}}</h5>
+                </div>
+                </div>
+            </div>
+    <!--END BINDING LIVE PREVIEW-->
+</div>
+
+
+
+<!--BEGIN EDIT CONTENT-->
+<div ng-show="edit && !curator">
+
+        <!--BEGIN EDIT INPUT FORM-->
+            <div class="col-sm-4">
+                <div class="well width = 500px" >
+                    <form class="form" ng-submit="editArt($index)">
+                        <div class="form-group"> <label for="artist">Artist Name:</label>   <input class="form-control" type="text" ng-model="art.artist" placeholder="Artist's Name"/>
+                        </div>
+                        <div class="form-group"> <label for="title">Art Title:</label>      <input class="form-control" type="text" ng-model="art.title" placeholder="Artpiece Title"/>
+                        </div>
+                        <div class="form-group"> <label for="imgUrl">Artwork Image</label> <input class="form-control" type="url" ng-model="art.img" placeholder="Paste Artwork Url Here"/>
+                        </div>
+                        <div>
+                            <button type="submit" class="fc-state-default" ng-click="editArt($index)">Update Gallery</button>
+                            <button ng-click="edit = !edit">Return</button>
+                        </div>
+                    </form>
+                </div>
+        <!--END EDIT INPUT FORM-->
+                
+            
+        <!--BEGIN EDIT BINDING TO LIVE PREVIEW-->
+            <div class="col-sm-2">
+            </div>    
+            <div class="col-sm-5">
+                    <div class="jumbotron">
+                <div class="media content = 500px">
+                    <p style="text-align: center"><img class="img" align="middle" style="height: 300px;" ng-src="{{newArt.img}}" default="Paste Artwork Image here"></p>
+                </div>
+                        <h3 style="text-align: center">{{newArt.title}}</h3>
+                        <h5 style="text-align: center">{{newArt.artist}}</h5>
+                </div>
+                </div>
+            </div>
+</div>
+
+
+<!--END EDIT CONTENT-->
+    <!--BEGIN GALLERY MEDIA CONTENT-->
+<div ng-show="!curator">       
+        <div class="Container">    
+            <div class="row text-center">
+                <div class="col-sm-12 pagination-centered">
+                    <div class="col-sm-2 panel panel-default gallery-canvas" ng-repeat="art in gallery | orderBy: sortOrder" >
+
+                                        <div class="media-center"> 
+                                        <p style="text-align: center" class="text-center">
+                                        <img class="media-object" ng-src="{{art.img}}" style="width:100%; height: 100% padding-top: 8px; border-raduis:5px;" />
+                                        </div>
+                                    </p>
+                                    <h3 class="media-heading">{{art.title}}</h3>
+                                    <h3 class="media-heading">{{art.artist}}</h3>
+                                    <div>
+                                    <span>
+                                    <button class="btn btn-sm btn-primary" ng-click="edit = !edit;">Edit</button>
+                                    <button class="btn btn-sm btn-danger" ng-click="removeArt()">Remove</button>
+                                    </span>
+                                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+ 
+    <!-- Latest compiled and minified Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+    
+    <!--Load bootstrap & jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!--Load App-->
+    <script src="app/config/init.js"></script>
+    <script src="app/controllers/gallery-controller.js"></script>
+
+</body>
+
+</html>

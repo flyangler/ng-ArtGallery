@@ -1,0 +1,19 @@
+<div class="Container">    
+    <div class="row text-center">
+        <div class="col-sm-12 pagination-centered">
+            <div class="col-sm-2 panel panel-default gallery-canvas" ng-repeat="art in gallery | orderBy: sortOrder" >
+
+                                <div class="media-center"> 
+                            	<p style="text-align: center" class="text-center">
+                                <img class="media-object" ng-src="{{art.img}}" style="width:100%; height: 100% padding-top: 8px; border-raduis:5px;" />
+                                </div></p>
+                            <h3 class="media-heading">{{art.title}}</h3>
+                            <h3 class="media-heading">{{art.artist}}</h3>
+                            <div>
+								<span><a ng-sref="" ng-click="EditArt()">Edit     </a></span>
+                           		<span><a ng-click="removeArt()">     Remove</a></span>
+                            </div>
+            </div>
+        </div>
+    </div>
+</div>

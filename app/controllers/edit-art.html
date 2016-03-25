@@ -1,0 +1,17 @@
+    <!--BEGIN EDIT FORM-->
+    <div class="col-sm-4">
+        <div class="well width = 500px" >
+            <form class="form" ng-submit="editArt($index)">
+                <div class="form-group"> <label for="artist">Artist Name:</label>   <input class="form-control" type="text" ng-model="art.artist" placeholder="Artist's Name"/>
+                </div>
+                <div class="form-group"> <label for="title">Art Title:</label>      <input class="form-control" type="text" ng-model="art.title" placeholder="Artpiece Title"/>
+                </div>
+                <div class="form-group"> <label for="imgUrl">Artwork Image</label>  <input class="form-control" type="url" ng-model="art.img" placeholder="Update Artwork Url Here"/>
+                </div>
+                <div>
+                    <button type="submit" class="fc-state-default" ng-sref="galleryView">Add to Gallery</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--END EDIT FORM-->
